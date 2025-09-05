@@ -2,7 +2,7 @@ import model.Client;
 import model.Order;
 import model.Product;
 
-public class Main {
+public class Main { //MÉTODO PRINCIPAL
     public static void main(String[] args)  {
         Client client = new Client("Juan José Argüello Alvarado", "juan.arguello03@uptc.edu.co"); 
         client.showInfo();
