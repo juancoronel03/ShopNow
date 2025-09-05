@@ -12,7 +12,7 @@ public class Product {
     } 
 
     public void showProductInfo(){
-        System.out.println("Product name: "+nameProduct+"\nCost: "+ cost+"\nID product: "+idProduct);
+        System.out.println("| Product name: "+nameProduct+"| Cost: "+ cost+"| ID product: "+idProduct+" |");
     }
 
     public double getCost() {

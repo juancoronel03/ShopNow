@@ -20,7 +20,8 @@ public class Main {
         order.addProduct(product5);
         System.out.println(" ");
         order.showProducts();
-        System.out.println("Total Cost: "+order.total());
+        System.out.println(" ");
+        System.out.println("Total Cost: "+"$"+order.total());
         
     }
 }
