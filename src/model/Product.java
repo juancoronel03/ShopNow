@@ -12,12 +12,17 @@ public class Product {
     } 
 
     public void showProductInfo(){
-        System.out.println("| Product name: "+nameProduct+"| Cost: "+ cost+"| ID product: "+idProduct+" |");
+        System.out.println("| Producto: "+nameProduct+"| costo: "+ cost+"| código: "+idProduct+" |");
     }
 
     public double getCost() {
         return cost;
     }
 
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    
     
 }

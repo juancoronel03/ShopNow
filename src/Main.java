@@ -1,27 +1,89 @@
+import java.util.Scanner;
+
 import model.Client;
 import model.Order;
 import model.Product;
+import presenter.Store;
 
-public class Main { //MÉTODO PRINCIPAL
-    public static void main(String[] args)  {
-        Client client = new Client("Juan José Argüello Alvarado", "juan.arguello03@uptc.edu.co"); 
-        client.showInfo();
-        Product product1 = new Product("Apple", 3000, 1234); 
-        Product product2 = new Product("Soap", 2000, 2345); 
-        Product product3 = new Product("Rice", 2500, 1345); 
-        Product product4 = new Product("Jamon", 3500, 4321); 
-        Product product5 = new Product("Queso", 6000, 6543); 
-        product1.showProductInfo();
-        Order order = new Order(1234); 
-        order.addProduct(product1);  
-        order.addProduct(product2);
-        order.addProduct(product3);  
-        order.addProduct(product4);  
-        order.addProduct(product5);
-        System.out.println(" ");
-        order.showProducts();
-        System.out.println(" ");
-        System.out.println("Total Cost: "+"$"+order.total());
-        
+public class Main { // MÉTODO PRINCIPAL
+
+    private static Store st = new Store();
+
+    public static void main(String[] args) {
+        // Crear cliente:
+        Client client = new Client("Juan José Argüello Alvarado", "juan.arguello03@uptc.edu.co");
+        menu();
+        // Crear pedido:
+        // System.out.println("Total Cost: " + "$" + order.total());
+        // System.out.println("Limit order date: " + order.calculateLimitDate());
+    }
+
+    public static void menu() {
+        Scanner sc = new Scanner(System.in);
+        Order order = new Order(01);
+        System.out.println("--BIENVENIDO A SHOPNOW--");
+        String op = "0";
+        do {
+            System.out.println("""
+                    Eliga una opción:
+                    1. Agregar un producto
+                    2. Ver pedido
+                    3. Pagar total
+                    0. Cerrar
+                    """);
+            op = sc.nextLine();
+            switch (op) {
+                case "1":
+                    String op1 = "0";
+                    System.out.println("Ingrese el código del producto que desea agregar");
+                    st.showProducts();
+                    int id = Integer.parseInt(sc.nextLine());
+                    addProduct(order, id);
+                    order.showProducts();
+                    do {
+                        System.out.println("""
+                                Eliga una opción:
+                                1. Agregar otro producto
+                                0. Salir
+                                """);
+                        op1 = sc.nextLine();
+                        switch (op1) {
+                            case "1":
+                                System.out.println("Ingrese el código del producto que desea agregar");
+                                st.showProducts();
+                                id = Integer.parseInt(sc.nextLine());
+                                addProduct(order, id);
+                                order.showProducts();
+                                break;
+                            case "0":
+                                System.out.println("Saliendo...");
+
+                                break;
+                            default:
+                                System.out.println("Opción inválida");
+                                break;
+                        }
+
+                    } while (op1.equals("0"));
+                    break;
+                case "0":
+                    System.out.println("Cerrando programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida");
+                    break;
+            }
+        } while (!op.equals("0"));
+    }
+
+    public static void addProduct(Order order, int id) {
+
+        if (st.searchProductById(id) == null) {
+            System.out.println("No se ha encontrado el producto en la lista");
+        } else {
+            order.addProduct(st.searchProductById(id));
+            System.out.println("Producto agregado");
+        }
     }
 }
