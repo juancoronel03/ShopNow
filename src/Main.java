@@ -4,18 +4,17 @@ import model.Client;
 import model.Order;
 import model.Product;
 import presenter.Store;
+import view.ShopNowGUI;
 
 public class Main { // MÉTODO PRINCIPAL
 
     private static Store st = new Store();
+    
 
     public static void main(String[] args) {
         // Crear cliente:
-        Client client = new Client("Juan José Argüello Alvarado", "juan.arguello03@uptc.edu.co");
-        menu();
-        // Crear pedido:
-        // System.out.println("Total Cost: " + "$" + order.total());
-        // System.out.println("Limit order date: " + order.calculateLimitDate());
+        Client client = new Client("Juan felipe coronel", "juan.coronel03@uptc.edu.co");
+        ShopNowGUI gui = new ShopNowGUI();
     }
 
     public static void menu() {
@@ -64,7 +63,58 @@ public class Main { // MÉTODO PRINCIPAL
                                 break;
                         }
 
-                    } while (op1.equals("0"));
+                    } while (!op1.equals("0"));
+                    break;
+                case "2": 
+                    System.out.println();
+                    order.showOrder();
+                    System.out.println();
+                    
+                    break; 
+                case "3":
+                    if (order.total() <= 0) {
+                        System.out.println("El pedido está vacío. Agregue productos antes de pagar.");
+                        break;
+                    }
+                    System.out.println("Elija método de pago:\n1. Tarjeta\n2. Transferencia bancaria\n3. Billetera digital");
+                    String payOp = sc.nextLine();
+                    switch (payOp) {
+                        case "1":
+                            System.out.println("Ingrese nombre del titular:");
+                            String owner = sc.nextLine();
+                            System.out.println("Ingrese número de tarjeta:");
+                            String cardNum = sc.nextLine();
+                            System.out.println("Ingrese fecha de expiración (MM/AA):");
+                            String exp = sc.nextLine();
+                            System.out.println("Ingrese CVV:");
+                            String cvv = sc.nextLine();
+                            model.Card card = new model.Card(owner, order.total(), cardNum, exp, cvv);
+                            order.setPaymentMethod(card);
+                            order.proccesOrder();
+                            break;
+                        case "2":
+                            System.out.println("Ingrese nombre del titular:");
+                            String ownerT = sc.nextLine();
+                            System.out.println("Ingrese nombre del banco:");
+                            String bank = sc.nextLine();
+                            System.out.println("Ingrese número de cuenta:");
+                            String acc = sc.nextLine();
+                            model.BankTransfer bt = new model.BankTransfer(ownerT, order.total(), bank, acc);
+                            order.setPaymentMethod(bt);
+                            order.proccesOrder();
+                            break;
+                        case "3":
+                            System.out.println("Ingrese nombre del titular:");
+                            String ownerW = sc.nextLine();
+                            System.out.println("Ingrese ID de la billetera:");
+                            String wid = sc.nextLine();
+                            model.DigitalWallet dw = new model.DigitalWallet(ownerW, order.total(), wid);
+                            order.setPaymentMethod(dw);
+                            order.proccesOrder();
+                            break;
+                        default:
+                            System.out.println("Opción de pago inválida");
+                    }
                     break;
                 case "0":
                     System.out.println("Cerrando programa...");

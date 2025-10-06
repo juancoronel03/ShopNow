@@ -5,14 +5,14 @@ public class Product {
     private double cost;
     private int idProduct; 
 
-    public Product(String nameProduct, double cost, int idProduct) {
+    public Product(int idProduct, String nameProduct, double cost) {
         this.nameProduct = nameProduct;
         this.cost = cost;
         this.idProduct = idProduct; 
     } 
 
     public void showProductInfo(){
-        System.out.println("| Producto: "+nameProduct+"| costo: "+ cost+"| código: "+idProduct+" |");
+        System.out.println("| Código: "+idProduct+"| Producto: "+nameProduct+"| costo: "+ cost);
     }
 
     public double getCost() {
@@ -22,6 +22,12 @@ public class Product {
     public int getIdProduct() {
         return idProduct;
     }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    
 
     
     
