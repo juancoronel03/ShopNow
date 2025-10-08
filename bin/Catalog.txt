@@ -1,30 +1,31 @@
-1,Manzana,3000
-2,Jabón,2000
-3,Arroz,2500
-4,Jamon,3500
-5,Queso,6000
-6,Manzana,3000
-7,Jabón,2000
-8,Arroz,2500
-9,Jamon,3500
-10,Queso,6000
-11,Leche,4500
-12,Huevos,12000
-13,Pan,2500
-14,Aceite,18000
-15,Sal,1500
-16,Azúcar,3200
-17,Café,14500
-18,Té,8000
-19,Mantequilla,7200
-20,Harina,4100
-21,Pollo,25000
-22,Carne,32000
-23,Pescado,28000
-24,Papa,3000
-25,Tomate,3500
-26,Cebolla,2700
-27,Banano,2200
-28,Naranja,4000
-29,Uvas,8500
-30,Chocolate,5600
+1,Mouse inalámbrico,45000
+2,Teclado mecánico,180000
+3,Auriculares Bluetooth,120000
+4,Monitor LED 24 pulgadas,600000
+5,Laptop HP 15",2200000
+6,Cable HDMI 2.0,25000
+7,Memoria USB 64GB,40000
+8,Disco duro externo 1TB,290000
+9,Impresora multifuncional,480000
+10,Router WiFi,150000
+11,Tablet Samsung 10",950000
+12,Smartwatch Xiaomi,380000
+13,Altavoz Bluetooth,170000
+14,Cargador portátil 10000mAh,90000
+15,SSD 500GB,310000
+16,Memoria RAM 16GB,270000
+17,Webcam HD,80000
+18,Micrófono de condensador,220000
+19,Placa madre ASUS,650000
+20,Procesador Intel i5,850000
+21,Fuente de poder 650W,320000
+22,Mousepad RGB,60000
+23,Silla gamer,780000
+24,Control Xbox,250000
+25,Adaptador USB-C,35000
+26,Soporte para laptop,90000
+27,Teclado inalámbrico,120000
+28,Cámara de seguridad WiFi,300000
+29,TV 55 pulgadas,2400000
+30,Audífonos con cable,50000
+

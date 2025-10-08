@@ -1,139 +1,150 @@
 import java.util.Scanner;
+import model.*;
 
-import model.Client;
-import model.Order;
-import model.Product;
-import presenter.Store;
-import view.ShopNowGUI;
-
-public class Main { // MÉTODO PRINCIPAL
-
-    private static Store st = new Store();
-    
+public class Main {
 
     public static void main(String[] args) {
-        // Crear cliente:
-        Client client = new Client("Juan felipe coronel", "juan.coronel03@uptc.edu.co");
-        ShopNowGUI gui = new ShopNowGUI();
-    }
-
-    public static void menu() {
         Scanner sc = new Scanner(System.in);
-        Order order = new Order(01);
-        System.out.println("--BIENVENIDO A SHOPNOW--");
-        String op = "0";
+
+        
+        Client client = new Client("Juan Felipe Coronel", "juan.coronel03@uptc.edu.co");
+
+        
+        System.out.println("-- BIENVENIDO A SHOPNOW --");
+        client.showInfo();
+        System.out.println();
+
+        String filePath = "src/Catalog.txt"; 
+        var products = ProductLoader.loadProducts(filePath);
+
+        // Crear pedido
+        Order order = new Order(1);
+
+        String option;
         do {
             System.out.println("""
-                    Eliga una opción:
-                    1. Agregar un producto
-                    2. Ver pedido
-                    3. Pagar total
-                    0. Cerrar
-                    """);
-            op = sc.nextLine();
-            switch (op) {
-                case "1":
-                    String op1 = "0";
-                    System.out.println("Ingrese el código del producto que desea agregar");
-                    st.showProducts();
-                    int id = Integer.parseInt(sc.nextLine());
-                    addProduct(order, id);
-                    order.showProducts();
-                    do {
-                        System.out.println("""
-                                Eliga una opción:
-                                1. Agregar otro producto
-                                0. Salir
-                                """);
-                        op1 = sc.nextLine();
-                        switch (op1) {
-                            case "1":
-                                System.out.println("Ingrese el código del producto que desea agregar");
-                                st.showProducts();
-                                id = Integer.parseInt(sc.nextLine());
-                                addProduct(order, id);
-                                order.showProducts();
-                                break;
-                            case "0":
-                                System.out.println("Saliendo...");
-
-                                break;
-                            default:
-                                System.out.println("Opción inválida");
-                                break;
-                        }
-
-                    } while (!op1.equals("0"));
-                    break;
-                case "2": 
-                    System.out.println();
-                    order.showOrder();
-                    System.out.println();
                     
-                    break; 
+                    MENU PRINCIPAL
+                    -- ---  --- --
+                    1. Ver catalogo
+                    2. Agregar producto al pedido
+                    3. Ver pedido
+                    4. Pagar total
+                    0. Salir
+                    ----------------------------
+                    Elige una opcion:
+                    """);
+
+            option = sc.nextLine();
+
+            switch (option) {
+                case "1":
+                    System.out.println("\n-- CATALOGO DE PRODUCTOS --");
+                    for (Product p : products) {
+                        p.showProductInfo();
+                    }
+                    System.out.println();
+                    break;
+
+                case "2":
+                    System.out.println("Ingrese el codigo del producto que desea agregar:");
+                    int id = Integer.parseInt(sc.nextLine());
+                    Product found = null;
+                    for (Product p : products) {
+                        if (p.getIdProduct() == id) {
+                            found = p;
+                            break;
+                        }
+                    }
+                    if (found != null) {
+                        order.addProduct(found);
+                        System.out.println("Producto agregado al pedido.\n");
+                    } else {
+                        System.out.println("Producto no encontrado.\n");
+                    }
+                    break;
+
                 case "3":
-                    if (order.total() <= 0) {
-                        System.out.println("El pedido está vacío. Agregue productos antes de pagar.");
+                    if (order.total() == 0) {
+                        System.out.println("El pedido esta vacio.\n");
+                    } else {
+                        order.showOrder();
+                        System.out.println();
+                    }
+                    break;
+
+                case "4":
+                    if (order.total() == 0) {
+                        System.out.println("El pedido esta vacio. Agregue productos antes de pagar.\n");
                         break;
                     }
-                    System.out.println("Elija método de pago:\n1. Tarjeta\n2. Transferencia bancaria\n3. Billetera digital");
-                    String payOp = sc.nextLine();
-                    switch (payOp) {
+
+                    System.out.println("""
+                            Elija metodo de pago:
+                            1. Tarjeta
+                            2. Transferencia bancaria
+                            3. Billetera digital
+                            """);
+
+                    String payOption = sc.nextLine();
+                    PaymentMethod method = null;
+
+                    switch (payOption) {
                         case "1":
                             System.out.println("Ingrese nombre del titular:");
-                            String owner = sc.nextLine();
-                            System.out.println("Ingrese número de tarjeta:");
+                            String ownerC = sc.nextLine();
+                            System.out.println("Ingrese numero de tarjeta:");
                             String cardNum = sc.nextLine();
-                            System.out.println("Ingrese fecha de expiración (MM/AA):");
+                            System.out.println("Ingrese fecha de expiracion (MM/AA):");
                             String exp = sc.nextLine();
                             System.out.println("Ingrese CVV:");
                             String cvv = sc.nextLine();
-                            model.Card card = new model.Card(owner, order.total(), cardNum, exp, cvv);
-                            order.setPaymentMethod(card);
-                            order.proccesOrder();
+
+                            method = new Card(ownerC, order.total(), cardNum, exp, cvv);
                             break;
+
                         case "2":
                             System.out.println("Ingrese nombre del titular:");
                             String ownerT = sc.nextLine();
                             System.out.println("Ingrese nombre del banco:");
                             String bank = sc.nextLine();
-                            System.out.println("Ingrese número de cuenta:");
+                            System.out.println("Ingrese numero de cuenta:");
                             String acc = sc.nextLine();
-                            model.BankTransfer bt = new model.BankTransfer(ownerT, order.total(), bank, acc);
-                            order.setPaymentMethod(bt);
-                            order.proccesOrder();
+
+                            method = new BankTransfer(ownerT, order.total(), bank, acc);
                             break;
+
                         case "3":
                             System.out.println("Ingrese nombre del titular:");
                             String ownerW = sc.nextLine();
                             System.out.println("Ingrese ID de la billetera:");
                             String wid = sc.nextLine();
-                            model.DigitalWallet dw = new model.DigitalWallet(ownerW, order.total(), wid);
-                            order.setPaymentMethod(dw);
-                            order.proccesOrder();
+
+                            method = new DigitalWallet(ownerW, order.total(), wid);
                             break;
+
                         default:
-                            System.out.println("Opción de pago inválida");
+                            System.out.println("Opcion de pago invalida.\n");
+                            break;
+                    }
+
+                    if (method != null) {
+                        order.setPaymentMethod(method);
+                        order.proccesOrder();
                     }
                     break;
+
                 case "0":
                     System.out.println("Cerrando programa...");
                     break;
 
                 default:
-                    System.out.println("Opción inválida");
+                    System.out.println("Opcion invalida. Intente nuevamente.\n");
                     break;
             }
-        } while (!op.equals("0"));
-    }
 
-    public static void addProduct(Order order, int id) {
+        } while (!option.equals("0"));
 
-        if (st.searchProductById(id) == null) {
-            System.out.println("No se ha encontrado el producto en la lista");
-        } else {
-            order.addProduct(st.searchProductById(id));
-            System.out.println("Producto agregado");
-        }
+        sc.close();
     }
 }
